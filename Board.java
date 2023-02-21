@@ -24,7 +24,28 @@ public class Board {
     /*--------------------------------------------- */
 
     public int[][] getBoard(){
-        
+
+        int[] gBoard[] = new int[size][size];
+
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                gBoard[i][j] = board[i][j];
+            }
+        }
+
+        return gBoard;
+    }
+
+    public String printBoard(){
+
+        String s = " ";
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                s += board[i][j] + " ";
+            }
+            s += "\n";
+        }
+        return s;
     }
 
 }

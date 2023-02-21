@@ -17,6 +17,8 @@ public class FifteenGame {
 
         Board initBoard = new Board(inptBoard, size);
         stdin.close();
+
+        System.out.println(initBoard.printBoard());
     }
 
 }
