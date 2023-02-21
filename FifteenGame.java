@@ -16,9 +16,22 @@ public class FifteenGame {
         }
 
         Board initBoard = new Board(inptBoard, size);
-        stdin.close();
 
+        stdin.close();
+        
         System.out.println(initBoard.printBoard());
+
+        for(Moves move: Moves.values())
+        {
+
+            Board teste = initBoard.move(move);
+            if (teste == null)
+            {
+                System.out.println("Invalid Move\n");
+            }else{
+            System.out.println(teste.printBoard());
+            }
+        }
     }
 
 }

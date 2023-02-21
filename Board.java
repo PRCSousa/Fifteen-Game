@@ -38,14 +38,38 @@ public class Board {
 
     public String printBoard(){
 
-        String s = " ";
+        String s = "";
         for (int i = 0; i < size; i++){
             for (int j = 0; j < size; j++){
-                s += board[i][j] + " ";
+
+                // this if is meant to align the output correctly
+
+                if (board[i][j] <= 9){
+                    s += board[i][j] + "  ";
+                }else{
+                    s += board[i][j] + " ";
+                }
             }
             s += "\n";
         }
         return s;
+    }
+
+    public Board move(Moves m)
+    {
+        int x = zeroX + m.dx;
+        int y = zeroY + m.dy;
+
+        if (x < 0 || x > size-1 || y < 0 || y > size-1)return null;  //If invalid
+        
+        int[] newBoard[] = getBoard();
+        newBoard[zeroY][zeroX] = newBoard[y][x];
+        newBoard[y][x] = 0;
+
+        Board newState = new Board(newBoard, size);
+
+        return newState;
+
     }
 
 }
