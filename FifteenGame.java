@@ -19,19 +19,10 @@ public class FifteenGame {
 
         stdin.close();
         
-        System.out.println(initBoard.printBoard());
+        System.out.println("Início\n");
 
-        for(Moves move: Moves.values())
-        {
+        BFS Solver = new BFS(initBoard);
+        Solver.solve();
 
-            Board teste = initBoard.move(move);
-            if (teste == null)
-            {
-                System.out.println("Invalid Move\n");
-            }else{
-            System.out.println(teste.printBoard());
-            }
-        }
     }
-
 }

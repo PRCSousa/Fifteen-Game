@@ -1,5 +1,5 @@
 
-public class Board {
+public class Board implements Comparable<Board> {
     private int[] board[];
     private int size;
     private int zeroX, zeroY;
@@ -19,6 +19,8 @@ public class Board {
                 }
             }
         }
+
+        parent = null;
     }
 
     /*--------------------------------------------- */
@@ -34,6 +36,19 @@ public class Board {
         }
 
         return gBoard;
+    }
+
+    public int getSize(){
+        return size;
+    }
+
+    public void setParent(Board p){
+        parent = p;
+    }
+    
+    public Board getParent()
+    {
+        return parent;
     }
 
     public String printBoard(){
@@ -55,6 +70,17 @@ public class Board {
         return s;
     }
 
+    public boolean isFinished(){
+        if (board[size-1][size-1] != 0) return false;
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+            if (i == size-1 && j == size-1) continue;
+            if (board[i][j] != (i*size + j + 1)) return false;
+            }
+        }
+        return true;
+    }
+
     public Board move(Moves m)
     {
         int x = zeroX + m.dx;
@@ -70,6 +96,19 @@ public class Board {
 
         return newState;
 
+    }
+
+    public String getSequence(){
+        String v = "";
+        for (int i = 0; i < size; i++)
+            for (int j = 0; j < size; j++)
+                v += board[i][j]+"_";
+        return v;
+    }
+
+    // comparator
+    public int compareTo(Board b){
+        return getSequence().compareTo(b.getSequence());
     }
 
 }
