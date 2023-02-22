@@ -7,7 +7,7 @@ import java.util.Stack;
 public class BFS {
     private int size;
     private Board currState;
-    private Set<Board> explored;
+    private Set<Board> explored; //To avoid cycling through explored nodes, we will add them to a set to compare with the new states.
 
     BFS(Board initBoard)
     {
@@ -24,23 +24,30 @@ public class BFS {
             solution.push(c);
             c = c.getParent();
         }
-        printSolution(solution);
         return solution;
     } // After finding the solution in the search, 
       // it will return a stack containing the initial 
       // state on top and the final on the bottom.
 
     public Stack<Board> solve(){
+
         Queue<Board> Q = new LinkedList<Board>();
         Q.offer(currState);
+
+        if(currState.isFinished())return rewind(currState); //If the initial state is the solution, return it. Probaably not the best way to do it, but it works.
 
         while(Q.size() > 0){
 
             for(Moves move: Moves.values())
             {
-                Board newNode = new Board(currState.getBoard(), size);
+                //Create a new node with the current state.
+                //Move the blank space to the new node.
+                //If the move is invalid, continue to the next move.
+                //If the move is valid, set the parent of the new node to the current state.
+                //If the new node is the solution, return the solution node to the rewind function.
 
-                newNode = newNode.move(move);
+                Board newNode = new Board(currState.getBoard(), size);
+                newNode = newNode.move(move); 
 
                 if (newNode == null) continue;
                 newNode.setParent(currState);
@@ -53,16 +60,29 @@ public class BFS {
                     Q.offer(newNode);
                 }
             }
+            // Remove the current state from the queue and set it to the next state.
+
             currState = Q.remove();
         }
+        // If the queue is empty, return null. It means that the solution was not found.
+
         return null;
     }
 
-    public void printSolution(Stack<Board> stack){
-        while (!stack.empty())
-        {
-            Board g = stack.pop();
-            System.out.println(g.printBoard());
+    public static void printSolution(Stack<Board> stack) {
+
+        if (stack == null) {
+            System.out.println("No solution found.");
+            return;
+        } else {
+            int count = -1; // -1 because the initial state is not counted as a move.
+            System.out.println("Initial Position:");
+            while (!stack.empty()) {
+                Board g = stack.pop();
+                System.out.println(g.printBoard());
+                count++;
+            }
+            System.out.println("Number of moves: " + (count));
         }
     }
 }

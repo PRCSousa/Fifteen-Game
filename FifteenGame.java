@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class FifteenGame {
     public static void main(String[] args) {
@@ -18,11 +19,10 @@ public class FifteenGame {
         Board initBoard = new Board(inptBoard, size);
 
         stdin.close();
-        
-        System.out.println("Início\n");
 
         BFS Solver = new BFS(initBoard);
-        Solver.solve();
+        Stack<Board> solution = Solver.solve();
+        BFS.printSolution(solution);
 
     }
 }
