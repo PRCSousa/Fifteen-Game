@@ -81,6 +81,44 @@ public class Board implements Comparable<Board> {
         return true;
     }
 
+    public boolean isSolvable() {
+        int[] arr = new int[size*size];
+        int inv_count = 0;
+        // converter array para lista bro
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                arr[i*size + j] = board[i][j];
+            }
+        }
+        // count inversions in the array
+        for (int i = 0; i < size*size - 1; i++) {
+            for (int j = i + 1; j < size*size; j++) {
+                // count pairs(i, j) such that i appears
+                // before j, but i > j.
+                if (arr[j] != 0 && arr[i] != 0 && arr[i] > arr[j]) {
+                    inv_count++;
+                }
+            }
+        }
+        // The rules:
+        // 1. If size is odd and the number of inversions is even, the puzzle is solvable.
+        // 2. If size is even, the sum of inversions and row number of the blank from the bottom must be even to be solvable.
+
+        if(size%2 == 1) {
+            if(inv_count%2 == 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if((inv_count + zeroY)%2 == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     public Board move(Moves m)
     {
         int x = zeroX + m.dx;
