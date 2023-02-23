@@ -30,13 +30,14 @@ public class BFS {
       // state on top and the final on the bottom.
 
     public Stack<Board> solve(){
-
+        int count = 0;
         Queue<Board> Q = new LinkedList<Board>();
         Q.offer(currState);
 
         if(currState.isFinished())return rewind(currState); //If the initial state is the solution, return it. Probaably not the best way to do it, but it works.
-
+        System.out.println("Beginning BFS Search\n");
         while(Q.size() > 0){
+            
 
             for(Moves move: Moves.values())
             {
@@ -47,7 +48,8 @@ public class BFS {
                 //If the new node is the solution, return the solution node to the rewind function.
 
                 Board newNode = new Board(currState.getBoard(), size);
-                newNode = newNode.move(move); 
+                newNode = newNode.move(move);
+
 
                 if (newNode == null) continue;
                 newNode.setParent(currState);
@@ -56,6 +58,11 @@ public class BFS {
 
 
                 if(!explored.contains(newNode)) {
+                    count++;
+                    if(count % 100000 == 0){
+                        System.out.println("Unique Positions Analised: " + count + " / 10461394944000");
+                        System.out.println("Current Queue Size: " + Q.size());
+                    } 
                     explored.add(newNode);
                     Q.offer(newNode);
                 }
@@ -76,7 +83,7 @@ public class BFS {
             return;
         } else {
             int count = -1; // -1 because the initial state is not counted as a move.
-            System.out.println("Initial Position:");
+            System.out.println("\nSolution Found!\nInitial Position:");
             while (!stack.empty()) {
                 Board g = stack.pop();
                 System.out.println(g.printBoard());
