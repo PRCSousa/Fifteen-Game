@@ -22,9 +22,13 @@ public class FifteenGame {
 
         if(initBoard.isSolvable()){
 
-            BFS Solver = new BFS(initBoard);
+           /*  BFS Solver = new BFS(initBoard);
             Stack<Board> solution = Solver.solve();
-            BFS.printSolution(solution);
+            BFS.printSolution(solution);*/
+
+            IDFS Solver = new IDFS(initBoard);
+            Stack<Board> solution = Solver.solve();
+            Board.printSolution(solution);
 
         }else{
         

@@ -3,6 +3,7 @@ import java.util.Stack;
 public class Board implements Comparable<Board> {
     private int[] board[];
     private int size;
+    private int depth;
     private int zeroX, zeroY;
     private Board parent;
 
@@ -50,6 +51,15 @@ public class Board implements Comparable<Board> {
     public Board getParent()
     {
         return parent;
+    }
+
+    public void setDepth(int p){
+        depth = p;
+    }
+    
+    public int getDepth()
+    {
+        return depth;
     }
 
     public String printBoard(){
