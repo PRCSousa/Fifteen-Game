@@ -17,22 +17,30 @@ public class FifteenGame {
         }
 
         Board initBoard = new Board(inptBoard, size);
-
-        stdin.close();
-
+        System.out.println("Choose Search Algorithm:\n 1 - BFS\n2 - DFS\n3 - IDFS");
+        int opt = stdin.nextInt();
         if(initBoard.isSolvable()){
+        switch(opt)
+        {
+            case 1:
+            BFS SolverBFS = new BFS(initBoard);
+            Stack<Board> solution1 = SolverBFS.solve();
+            Board.printSolution(solution1);
+            break;
+            case 2:
+            DFS SolverDFS = new DFS(initBoard);
+            Stack<Board> solution2 = SolverDFS.solve();
+            Board.printSolution(solution2);
+            break;
+            case 3:
+            IDFS SolverIDFS = new IDFS(initBoard);
+            Stack<Board> solution3 = SolverIDFS.solve();
+            Board.printSolution(solution3);
+            break;
+            default:
+                break;
 
-           /*  BFS Solver = new BFS(initBoard);
-            Stack<Board> solution = Solver.solve();
-            BFS.printSolution(solution);*/
-
-            IDFS Solver = new IDFS(initBoard);
-            Stack<Board> solution = Solver.solve();
-            Board.printSolution(solution);
-
-        }else{
-        
-            System.out.println("Not solvable");
-        }
+        }}else{System.out.println("Not Solvable.");}
+        stdin.close();
     }
 }
