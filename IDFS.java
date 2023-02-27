@@ -3,8 +3,7 @@ import java.util.TreeSet;
 import java.util.Stack;
 
 public class IDFS {
-    public boolean end = false;
-    public int maxdepth = 80;
+    private int maxdepth = 15;
     private int size;
     private Board root;
     private Set<Board> explored; // To avoid cycling through explored nodes, we will add them to a set to compare
@@ -13,40 +12,45 @@ public class IDFS {
     IDFS(Board initBoard) {
         size = initBoard.getSize();
         root = new Board(initBoard.getBoard(), initBoard.getSize());
-        explored = new TreeSet<Board>();
     }
 
     public Stack<Board> solve() {
-        int depth = 0;
-        Stack<Board> stack = new Stack<Board>();
-        stack.push(root);
-        explored.add(root);
 
         if (root.isFinished())
             return Board.rewind(root);
 
         System.out.println("Beginning IDFS Search\n");
+        for (int iter = 1; iter < maxdepth; iter++) {
+            root.setDepth(0);
 
-        while (!stack.empty()) {
-            Board currState = stack.pop();
-            depth--;
-            for (Moves move : Moves.values()) {
+            Stack<Board> stack = new Stack<Board>();
+            explored = new TreeSet<Board>();
 
-                Board newNode = new Board(currState.getBoard(), size);
-                newNode = newNode.move(move);
+            stack.push(root);
+            explored.add(root);
 
-                if (newNode == null)
-                    continue;
-                newNode.setParent(currState);
+            while (!stack.empty()) {
+                Board currState = stack.pop();
+                int depth = currState.getDepth();
+                for (Moves move : Moves.values()) {
 
-                if (newNode.isFinished())
-                    return Board.rewind(newNode);
+                    Board newNode = new Board(currState.getBoard(), size);
+                    newNode = newNode.move(move);
 
-                if (!explored.contains(newNode) && !stack.contains(newNode) && depth < maxdepth) {
-                    depth++;
-                    stack.push(newNode);
-                    explored.add(newNode);
+                    if (newNode == null)
+                        continue;
 
+                    newNode.setParent(currState);
+                    newNode.setDepth(depth + 1);
+
+                    if (newNode.isFinished())
+                        return Board.rewind(newNode);
+
+                    if (!explored.contains(newNode) && !stack.contains(newNode) && depth < iter) {
+                        stack.push(newNode);
+                        explored.add(newNode);
+
+                    }
                 }
             }
         }
