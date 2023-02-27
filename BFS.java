@@ -18,24 +18,13 @@ public class BFS {
         explored = new TreeSet<Board>();
     }
 
-    public Stack<Board> rewind(Board c) {
-        Stack<Board> solution = new Stack<Board>();
-        while (c != null) {
-            solution.push(c);
-            c = c.getParent();
-        }
-        return solution;
-    } // After finding the solution in the search,
-      // it will return a stack containing the initial
-      // state on top and the final on the bottom.
-
     public Stack<Board> solve() {
         int count = 0;
         Queue<Board> Q = new LinkedList<Board>();
         Q.offer(currState);
 
         if (currState.isFinished())
-            return rewind(currState); // If the initial state is the solution, return it. Probaably not the best way
+            return Board.rewind(currState); // If the initial state is the solution, return it. Probaably not the best way
                                       // to do it, but it works.
         System.out.println("Beginning BFS Search\n");
 
@@ -57,7 +46,7 @@ public class BFS {
                 newNode.setParent(currState);
 
                 if (newNode.isFinished())
-                    return rewind(newNode);
+                    return Board.rewind(newNode);
 
                 if (!explored.contains(newNode)) {
                     count++;
@@ -76,22 +65,5 @@ public class BFS {
         // If the queue is empty, return null. It means that the solution was not found.
 
         return null;
-    }
-
-    public static void printSolution(Stack<Board> stack) {
-
-        if (stack == null) {
-            System.out.println("No solution found.");
-            return;
-        } else {
-            int count = -1; // -1 because the initial state is not counted as a move.
-            System.out.println("\nSolution Found!\nInitial Position:");
-            while (!stack.empty()) {
-                Board g = stack.pop();
-                System.out.println(g.printBoard());
-                count++;
-            }
-            System.out.println("Number of moves: " + (count));
-        }
     }
 }

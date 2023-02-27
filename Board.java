@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 public class Board implements Comparable<Board> {
     private int[] board[];
@@ -135,6 +136,32 @@ public class Board implements Comparable<Board> {
         return newState;
 
     }
+    
+    public static void printSolution(Stack<Board> stack) {
+
+            if (stack == null) {
+                System.out.println("No solution found.");
+                return;
+            } else {
+                int count = -1; // -1 because the initial state is not counted as a move.
+                System.out.println("\nSolution Found!\nInitial Position:");
+                while (!stack.empty()) {
+                    Board g = stack.pop();
+                    System.out.println(g.printBoard());
+                    count++;
+                }
+                System.out.println("Number of moves: " + (count));
+            }
+        }
+
+    public static Stack<Board> rewind(Board c) {
+        Stack<Board> solution = new Stack<Board>();
+           while (c != null) {
+            solution.push(c);
+            c = c.getParent();
+        }
+        return solution;
+        }
 
     public String getSequence(){
         String v = "";
