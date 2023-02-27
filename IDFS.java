@@ -1,13 +1,9 @@
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.Stack;
 
 public class IDFS {
     private int maxdepth = 15;
     private int size;
     private Board root;
-    private Set<Board> explored; // To avoid cycling through explored nodes, we will add them to a set to compare
-                                 // with the new states.
 
     IDFS(Board initBoard) {
         size = initBoard.getSize();
@@ -24,10 +20,8 @@ public class IDFS {
             root.setDepth(0);
 
             Stack<Board> stack = new Stack<Board>();
-            explored = new TreeSet<Board>();
 
             stack.push(root);
-            explored.add(root);
 
             while (!stack.empty()) {
                 Board currState = stack.pop();
@@ -46,9 +40,8 @@ public class IDFS {
                     if (newNode.isFinished())
                         return Board.rewind(newNode);
 
-                    if (!explored.contains(newNode) && !stack.contains(newNode) && depth < iter) {
+                    if (!stack.contains(newNode) && depth < iter) {
                         stack.push(newNode);
-                        explored.add(newNode);
 
                     }
                 }

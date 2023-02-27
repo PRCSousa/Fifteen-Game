@@ -1,18 +1,13 @@
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.Stack;
 
 public class DFS {
-    private int maxdepth = 15;
+    private int maxdepth = 12;
     private int size;
     private Board root;
-    private Set<Board> explored; // To avoid cycling through explored nodes, we will add them to a set to compare
-                                 // with the new states.
 
     DFS(Board initBoard) {
         size = initBoard.getSize();
         root = new Board(initBoard.getBoard(), initBoard.getSize());
-        explored = new TreeSet<Board>();
     }
 
 
@@ -20,7 +15,6 @@ public class DFS {
         root.setDepth(0);
         Stack<Board> stack = new Stack<Board>();
         stack.push(root);
-        explored.add(root);
 
         if (root.isFinished())
             return Board.rewind(root);
@@ -30,7 +24,6 @@ public class DFS {
         while (!stack.empty()) {
             Board currState = stack.pop();
             int depth = currState.getDepth();
-            System.out.println(depth);
             for (Moves move : Moves.values()) {
 
                 Board newNode = new Board(currState.getBoard(), size);
@@ -45,9 +38,8 @@ public class DFS {
                 if (newNode.isFinished())
                     return Board.rewind(newNode);
 
-                if (!explored.contains(newNode) && !stack.contains(newNode) && depth < maxdepth) {
+                if (!stack.contains(newNode) && depth < maxdepth) {
                     stack.push(newNode);
-                    explored.add(newNode);
 
                 }
             }
