@@ -1,61 +1,75 @@
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.PriorityQueue;
 import java.util.Stack;
+import java.util.Comparator;
 
 public class Greedy {
     private int size;
-    private Board currState;
-    private Set<Board> explored; // To avoid cycling through explored nodes, we will add them to a set to compare
-                                 // with the new states.
+    private Board root;
+    private int[][] finalState;
+    private int heur;
+    private Set<Board> explored;
+    private PriorityQueue<Board> PQ = new PriorityQueue<>(Comparator.comparingInt(this::heuristic).reversed());
 
-    Greedy(Board initBoard) {
-        size = initBoard.getSize();
-        currState = new Board(initBoard.getBoard(), initBoard.getSize());
-        explored = new TreeSet<Board>();
+    public int heuristic(Board a) {
+        int[] board[] = a.getBoard();
+        int count = 0;
+        if (heur == 1) {
+            // sum of squares in the right place
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (board[i][j] == finalState[i][j])
+                        count++;
+                }
+            }
+            return count;
+        } else {
+            // manhattan distance
+            return 0;
+        }
     }
 
-    public Stack<Board> rewind(Board c) {
-        Stack<Board> solution = new Stack<Board>();
-        while (c != null) {
-            solution.push(c);
-            c = c.getParent();
-        }
-        return solution;
-    } // After finding the solution in the search,
-      // it will return a stack containing the initial
-      // state on top and the final on the bottom.
+    Greedy(Board initBoard, int h, int[][] fs) {
+        size = initBoard.getSize();
+        root = new Board(initBoard.getBoard(), initBoard.getSize());
+        finalState = fs;
+        heur = h;
+    }
 
     public Stack<Board> solve() {
-        int count = 0;
-        Queue<Board> Q = new LinkedList<Board>();
-        Q.offer(currState);
+        explored = new TreeSet<Board>();
 
-        if (currState.isFinished())
-            return rewind(currState); // If the initial state is the solution, return it. Probaably not the best way
-                                      // to do it, but it works.
+        if (root.isFinished())
+            return Board.rewind(root);
+
+        PQ.offer(root);
+
         System.out.println("Beginning Greedy Search\n");
 
-        while()
+        while (!PQ.isEmpty()) {
+            Board currState = PQ.remove();
 
-        return null;
-    }
+            for (Moves move : Moves.values()) {
+                Board newNode = new Board(currState.getBoard(), size);
+                newNode = newNode.move(move);
 
-    public static void printSolution(Stack<Board> stack) {
+                if (newNode == null)
+                    continue;
 
-        if (stack == null) {
-            System.out.println("No solution found.");
-            return;
-        } else {
-            int count = -1; // -1 because the initial state is not counted as a move.
-            System.out.println("\nSolution Found!\nInitial Position:");
-            while (!stack.empty()) {
-                Board g = stack.pop();
-                System.out.println(g.printBoard());
-                count++;
+                newNode.setParent(currState);
+
+                if (newNode.isFinished())
+                    return Board.rewind(newNode);
+
+                if (!explored.contains(newNode) && !PQ.contains(newNode)) {
+                    explored.add(newNode);
+                    PQ.offer(newNode);
+                }
+
             }
-            System.out.println("Number of moves: " + (count));
+
         }
+        return null;
     }
 }

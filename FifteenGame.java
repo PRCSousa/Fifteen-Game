@@ -3,44 +3,70 @@ import java.util.Stack;
 
 public class FifteenGame {
     public static void main(String[] args) {
+
         Scanner stdin = new Scanner(System.in);
         int size = stdin.nextInt();
 
         int[] inptBoard[] = new int[size][size];
-        
-        for(int i = 0; i < size; i++)
-        {
-            for(int j = 0; j < size; j++)
-            {
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 inptBoard[i][j] = stdin.nextInt();
             }
         }
 
-        Board initBoard = new Board(inptBoard, size);
-        System.out.println("Choose Search Algorithm:\n 1 - BFS\n2 - DFS\n3 - IDFS");
-        int opt = stdin.nextInt();
-        if(initBoard.isSolvable()){
-        switch(opt)
-        {
-            case 1:
-            BFS SolverBFS = new BFS(initBoard);
-            Stack<Board> solution1 = SolverBFS.solve();
-            Board.printSolution(solution1);
-            break;
-            case 2:
-            DFS SolverDFS = new DFS(initBoard);
-            Stack<Board> solution2 = SolverDFS.solve();
-            Board.printSolution(solution2);
-            break;
-            case 3:
-            IDFS SolverIDFS = new IDFS(initBoard);
-            Stack<Board> solution3 = SolverIDFS.solve();
-            Board.printSolution(solution3);
-            break;
-            default:
-                break;
+        int[] endBoard[] = new int[size][size];
 
-        }}else{System.out.println("Not Solvable.");}
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                endBoard[i][j] = stdin.nextInt();
+            }
+        }
+
+        Board initBoard = new Board(inptBoard, size);
+        Board.setFinalBoard(endBoard, size);
+        System.out.println("Initial Board:\n");
+        System.out.println(initBoard.printBoard());
+        System.out.println("\nFinal Board:\n");
+        System.out.println(initBoard.printFinalBoard());
+
+        Stack<Board> solution = null;
+
+        if (initBoard.isSolvable()) {
+            switch (args[0]) {
+
+                case "BFS":
+                    BFS SolverBFS = new BFS(initBoard);
+                    solution = SolverBFS.solve();
+                    break;
+
+                case "DFS":
+                    DFS SolverDFS = new DFS(initBoard);
+                    solution = SolverDFS.solve();
+                    break;
+
+                case "IDFS":
+                    IDFS SolverIDFS = new IDFS(initBoard);
+                    solution = SolverIDFS.solve();
+                    break;
+
+                case "Greedy-Misplaced":
+                    Greedy SolverGreedy = new Greedy(initBoard, 1, endBoard);
+                    solution = SolverGreedy.solve();
+                    break;
+
+                case "Greedy-Manhattan":
+                    Greedy SolverGreedy2 = new Greedy(initBoard, 2, endBoard);
+                    solution = SolverGreedy2.solve();
+                    break;
+
+                default:
+                    break;
+            }
+            Board.printSolution(solution);
+        } else {
+            System.out.println("Not Solvable.");
+        }
         stdin.close();
     }
 }
