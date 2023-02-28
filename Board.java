@@ -1,17 +1,23 @@
 import java.util.Stack;
 
 public class Board implements Comparable<Board> {
+    
     private int[] board[];
     private int size;
     private int depth;
     private int zeroX, zeroY;
+    private static int finalZeroX, finalZeroY;
+    private static int[] finalBoard[];
     private Board parent;
 
-    Board(int[][] b,int s)
+    /*--------------------------------------------- */
+
+    Board(int[][] b, int s)
     {
         size = s;
         board = new int[size][size];
-
+        finalBoard = new int[size][size];
+        
         // Insert board setup into Board object
         for (int i = 0; i < s; i++){
             for (int j = 0; j < s; j++){
@@ -40,9 +46,26 @@ public class Board implements Comparable<Board> {
         return gBoard;
     }
 
+    public int[][] getFinalBoard(){
+
+        int[] gBoard[] = new int[size][size];
+
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+                gBoard[i][j] = finalBoard[i][j];
+            }
+        }
+
+        return gBoard;
+    }
+
+    /*--------------------------------------------- */
+
     public int getSize(){
         return size;
     }
+
+    /*--------------------------------------------- */
 
     public void setParent(Board p){
         parent = p;
@@ -53,6 +76,8 @@ public class Board implements Comparable<Board> {
         return parent;
     }
 
+    /*--------------------------------------------- */
+
     public void setDepth(int p){
         depth = p;
     }
@@ -60,6 +85,20 @@ public class Board implements Comparable<Board> {
     public int getDepth()
     {
         return depth;
+    }
+
+    /*--------------------------------------------- */
+
+    public static void setFinalBoard(int[][] b, int s){
+        finalBoard = new int[s][s];
+        for (int i = 0; i < s; i++){
+            for (int j = 0; j < s; j++){
+                if (finalBoard[i][j] == 0){
+                    finalZeroY = i; finalZeroX = j;
+                finalBoard[i][j] = b[i][j];
+                }
+            }
+        }
     }
 
     public String printBoard(){
@@ -80,6 +119,29 @@ public class Board implements Comparable<Board> {
         }
         return s;
     }
+
+    /*--------------------------------------------- */
+
+    public String printFinalBoard(){
+
+        String s = "";
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j < size; j++){
+
+                // this if is meant to align the output correctly
+
+                if (finalBoard[i][j] <= 9){
+                    s += finalBoard[i][j] + "  ";
+                }else{
+                    s += finalBoard[i][j] + " ";
+                }
+            }
+            s += "\n";
+        }
+        return s;
+    }
+
+    /*--------------------------------------------- */
 
     public boolean isFinished(){
         if (board[size-1][size-1] != 0) return false;
