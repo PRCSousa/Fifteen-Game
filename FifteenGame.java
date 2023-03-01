@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.util.Stack;
 
+import algos.Astar;
 import algos.BFS;
 import algos.DFS;
 import algos.Greedy;
@@ -64,6 +65,16 @@ public class FifteenGame {
                 case "Greedy-Manhattan":
                     Greedy SolverGreedy2 = new Greedy(initBoard, 2, endBoard);
                     solution = SolverGreedy2.solve();
+                    break;
+
+                case "Astar-Misplaced":
+                    Astar SolverAstar = new Astar(initBoard, 1, endBoard);
+                    solution = SolverAstar.solve();
+                    break;
+
+                case "Astar-Manhattan":
+                    Astar SolverAstar2 = new Astar(initBoard, 2, endBoard);
+                    solution = SolverAstar2.solve();
                     break;
 
                 default:

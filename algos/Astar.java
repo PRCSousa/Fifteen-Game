@@ -56,35 +56,13 @@ public class Astar {
     public Stack<Board> solve() {
 
         explored = new TreeSet<Board>();
-        Stack<Board> solution = new Stack<Board>();
         PQ.add(root);
 
+        System.out.println("Beggining A* search\n");
         while (!PQ.isEmpty()) {
             
             Board current = PQ.remove();
 
-            if (current.isFinished()) {
-
-                while (current != null) {
-
-                    solution.push(current);
-                    current = current.getParent();
-                }
-                return solution;
-            }
-
-            explored.add(current);
-
-            for (Moves move: Moves.values()) {
-
-                Board next = current.move(move);
-
-                if (!explored.contains(next) && !PQ.contains(next)) {
-                    next.setParent(current);
-                    PQ.add(next);
-                }
-            }
-            
         }
         return null;
     }
