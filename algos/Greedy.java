@@ -21,7 +21,7 @@ public class Greedy {
         int[] board[] = a.getBoard();
         int count = 0;
         if (heur == 1) {
-            // sum of squares in the right place
+            // sum of squares in the wrong place
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
                     if (board[i][j] != finalState[i][j])
@@ -31,7 +31,21 @@ public class Greedy {
             return count;
         } else {
             // manhattan distance
-            return 0;
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (board[i][j] != finalState[i][j]) {
+                        for (int k = 0; k < size; k++) {
+                            for (int l = 0; l < size; l++) {
+                                if (board[i][j] == finalState[k][l]) {
+                                    count += Math.abs(i - k) + Math.abs(j - l);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return count;
         }
     }
 
