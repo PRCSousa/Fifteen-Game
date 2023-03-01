@@ -1,6 +1,12 @@
 import java.util.Scanner;
 import java.util.Stack;
 
+import algos.BFS;
+import algos.DFS;
+import algos.Greedy;
+import algos.IDFS;
+import game.Board;
+
 public class FifteenGame {
     public static void main(String[] args) {
 
