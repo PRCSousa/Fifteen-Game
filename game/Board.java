@@ -162,22 +162,24 @@ public class Board implements Comparable<Board> {
                 arr[i * size + j] = br[i][j];
             }
         }
-        // count inversions in the array
+
         for (int i = 0; i < size * size - 1; i++) {
             for (int j = i + 1; j < size * size; j++) {
-                // count pairs(i, j) such that i appears
-                // before j, but i > j.
                 
                 if (arr[j] != 0 && arr[i] != 0 && arr[i] > arr[j]) {
                     inv_count++;
                 }
             }
         }
-
-        if((inv_count % 2 == 0) == (z % 2 == 1))
+        if(size % 2 == 1 && inv_count % 2 == 0)
+            return true;
+        else{
+            if((inv_count % 2 == 0) == (z % 2 == 1))
             return true;
         else
             return false;
+        }
+        
     }
 
     /*--------------------------------------------- */
