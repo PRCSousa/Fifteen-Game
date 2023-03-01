@@ -6,7 +6,7 @@ import game.Board;
 
 
 public class IDFS {
-    private int maxdepth = 15;
+    private int maxdepth = 31;
     private int size;
     private Board root;
 

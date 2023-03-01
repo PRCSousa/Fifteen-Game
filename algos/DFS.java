@@ -5,7 +5,7 @@ import game.Moves;
 import game.Board;
 
 public class DFS {
-    private int maxdepth = 12;
+    private int maxdepth = 31;
     private int size;
     private Board root;
 
