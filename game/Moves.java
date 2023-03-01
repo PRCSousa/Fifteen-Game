@@ -1,3 +1,4 @@
+package game;
 public enum Moves{
         // (Y,X) / (i,j)
         LEFT(0,-1),

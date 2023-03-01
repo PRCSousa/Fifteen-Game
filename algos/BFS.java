@@ -1,5 +1,10 @@
+package algos;
 import java.util.Set;
 import java.util.TreeSet;
+
+import game.Board;
+import game.Moves;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -12,7 +17,7 @@ public class BFS {
     // with the new states.
     private Set<Board> explored;
     
-    BFS(Board initBoard) {
+    public BFS(Board initBoard) {
         size = initBoard.getSize();
         currState = new Board(initBoard.getBoard(), initBoard.getSize());
         explored = new TreeSet<Board>();

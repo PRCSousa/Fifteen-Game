@@ -1,5 +1,10 @@
+package algos;
 import java.util.Set;
 import java.util.TreeSet;
+
+import game.Moves;
+import game.Board;
+
 import java.util.PriorityQueue;
 import java.util.Stack;
 import java.util.Comparator;
@@ -10,7 +15,7 @@ public class Greedy {
     private int[][] finalState;
     private int heur;
     private Set<Board> explored;
-    private PriorityQueue<Board> PQ = new PriorityQueue<>(Comparator.comparingInt(this::heuristic).reversed());
+    private PriorityQueue<Board> PQ = new PriorityQueue<>(Comparator.comparingInt(this::heuristic));
 
     public int heuristic(Board a) {
         int[] board[] = a.getBoard();
@@ -19,7 +24,7 @@ public class Greedy {
             // sum of squares in the right place
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    if (board[i][j] == finalState[i][j])
+                    if (board[i][j] != finalState[i][j])
                         count++;
                 }
             }
@@ -30,7 +35,7 @@ public class Greedy {
         }
     }
 
-    Greedy(Board initBoard, int h, int[][] fs) {
+    public Greedy(Board initBoard, int h, int[][] fs) {
         size = initBoard.getSize();
         root = new Board(initBoard.getBoard(), initBoard.getSize());
         finalState = fs;

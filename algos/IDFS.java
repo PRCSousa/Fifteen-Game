@@ -1,11 +1,16 @@
+package algos;
 import java.util.Stack;
+
+import game.Moves;
+import game.Board;
+
 
 public class IDFS {
     private int maxdepth = 15;
     private int size;
     private Board root;
 
-    IDFS(Board initBoard) {
+    public IDFS(Board initBoard) {
         size = initBoard.getSize();
         root = new Board(initBoard.getBoard(), initBoard.getSize());
     }
