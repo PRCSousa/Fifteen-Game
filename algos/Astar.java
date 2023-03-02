@@ -28,7 +28,7 @@ public class Astar {
                         count++;
                 }
             }
-            return count;
+            return count + a.getDepth();
         } else {
             // manhattan distance (is this the best way to do this?)
             for (int i = 0; i < size; i++) {
@@ -44,27 +44,48 @@ public class Astar {
                     }
                 }
             }
-            return count;
+            return count + a.getDepth();
         }
     }
+
     public Astar(Board initBoard, int h, int[][] fs) {
         size = initBoard.getSize();
         root = new Board(initBoard.getBoard(), initBoard.getSize());
         finalState = fs;
         heur = h;
     }
+
     public Stack<Board> solve() {
 
         explored = new TreeSet<Board>();
+        root.setDepth(0);
         PQ.add(root);
 
         System.out.println("Beggining A* search\n");
         while (!PQ.isEmpty()) {
-            
-            Board current = PQ.remove();
 
+            Board currState = PQ.remove();
+
+            for (Moves move : Moves.values()) {
+                Board newNode = new Board(currState.getBoard(), size);
+                newNode = newNode.move(move);
+                
+
+                if (newNode == null)
+                    continue;
+                newNode.setDepth(root.getDepth() + 1);
+                newNode.setParent(currState);
+
+                if (newNode.isFinished())
+                    return Board.rewind(newNode);
+
+                if (!explored.contains(newNode) && !PQ.contains(newNode)) {
+                    explored.add(newNode);
+                    PQ.offer(newNode);
+                }
+            }
         }
         return null;
     }
-    
+
 }
