@@ -24,7 +24,6 @@ public class BFS {
     }
 
     public Stack<Board> solve() {
-        int count = 0;
         Queue<Board> Q = new LinkedList<Board>();
         Q.offer(currState);
 
@@ -54,11 +53,6 @@ public class BFS {
                     return Board.rewind(newNode);
 
                 if (!explored.contains(newNode)) {
-                    count++;
-                    if (count % 100000 == 0) {
-                        System.out.println("Unique Positions Analised: " + count + " / 10461394944000");
-                        System.out.println("Current Queue Size: " + Q.size());
-                    }
                     explored.add(newNode);
                     Q.offer(newNode);
                 }
